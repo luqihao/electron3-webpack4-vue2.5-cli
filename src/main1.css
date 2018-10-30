@@ -1,0 +1,10 @@
+body {
+  background-color: rgb(156, 132, 132);
+  color: rgb(235, 166, 17);
+}
+.img{
+    /* background-image: url(./photo.png); */
+    width:250px;
+    height:50px;
+    /* transform: rotateX(90deg); */
+}
