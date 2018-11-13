@@ -1,12 +1,13 @@
-const path = require('path')
 const webpack = require('webpack')
 
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const merge = require('webpack-merge')
+const common = require('./webpack.common.js')
+
+const utils = require('./util.js')
 
 module.exports = merge(common, {
   devServer: {
-    contentBase: path.join(__dirname, './dist'),
+    contentBase: utils.resolve('../dist'),
     host: "0.0.0.0",
     useLocalIp: true,
     overlay: {

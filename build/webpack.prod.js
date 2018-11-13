@@ -1,4 +1,3 @@
-const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -7,6 +6,8 @@ const glob = require('glob')
 const PurifyCSSPlugin = require('purifycss-webpack') // 去掉没有用过的css
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin')//复制粘贴文件的插件
+
+const utils = require('./util.js')
 
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
@@ -54,19 +55,19 @@ module.exports = merge(common, {
   },
   plugins: [
     new webpack.HashedModuleIdsPlugin(), // 文件没变的话打包出来的hash值不会变化（跟上次一样）
-    new CleanWebpackPlugin(['dist/*'], {
-      root: path.resolve(__dirname, './')
+    new CleanWebpackPlugin(['dist'], {
+      root: utils.resolve('../')
     }),
     // new PurifyCSSPlugin({
     //   paths: glob.sync(path.join(__dirname, 'src/*.vue'))
     // }),
-    new CopyWebpackPlugin([//拷贝文件到打包文件目录下的插件
-      {
-        from: path.resolve(__dirname, './static'),//复制来自于static
-        to: path.resolve(__dirname, './dist'),//粘贴到dist文件下static
-        ignore: ['.*']
-      }
-    ]),
+    // new CopyWebpackPlugin([//拷贝文件到打包文件目录下的插件
+    //   {
+    //     from: utils.resolve('./static'),//复制来自于static
+    //     to: utils.resolve('./dist'),//粘贴到dist文件下static
+    //     ignore: ['.*']
+    //   }
+    // ]),
     // new BundleAnalyzerPlugin()
   ],
 })

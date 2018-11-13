@@ -1,5 +1,4 @@
-const path = require('path')
-const webpack = require('webpack')
+const fs = require("fs")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -8,6 +7,27 @@ const HappyPack = require('happypack')
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })//获取cpu的数量
 
+const utils = require('./util.js')
+const entryDir = utils.resolve("../renderer/window")
+const entryFiles = fs.readdirSync(utils.resolve('../renderer/window'))
+let htmlPlugins = [], entrys = {}
+entryFiles.forEach(dir => {
+  entrys[dir] = `${entryDir}/${dir}`
+  const htmlPlugin = new HtmlWebpackPlugin({
+    minify: { //是对html文件进行压缩
+      removeComments: true,
+      collapseWhitespace: true,
+      removeAttributeQuotes: true
+    },
+    filename: `${dir === 'login' ? 'index' : dir}.html`,
+    title: `${dir}`,
+    hash: true, //为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
+    template: utils.resolve('../index.html'), //是要打包的html模版路径和文件名称。
+    // chunks: [dir]
+    chunks: [dir, 'vendor']
+  })
+  htmlPlugins.push(htmlPlugin)
+})
 // var website = {
 //   publicPath: "http://localhost:8080/"
 //   // publicPath:"http://192.168.1.103:8888/"
@@ -18,13 +38,12 @@ console.log('*****')
 module.exports = {
   mode: process.env.NODE_ENV, // development or production
   devtool: process.env.NODE_ENV === 'development' ? 'cheap-module-eval-source-map' : 'source-map',
-  entry: {
-    main1: './src/main1.js',
-    main2: './src/main2.js',
-    vendor: ['vue', 'element-ui', 'vue-router']
-  },
+  entry: Object.assign({
+    vendor: ['vue', 'vuetify', 'vue-router', 'vuex']
+  }, entrys),
+  // vendor: ['vue', 'vuetify', 'vue-router', 'vuex']
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: utils.resolve('../dist'),
     filename: 'js/[name].[hash:8].js',
     // publicPath: 'dist'  //publicPath：主要作用就是处理静态文件路径的。
   },
@@ -32,7 +51,11 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      'src': path.resolve(__dirname, './src')
+      'js': utils.resolve('../renderer/assets/js'),
+      'style': utils.resolve('../renderer/assets/style'),
+      'image': utils.resolve('../renderer/assets/image'),
+      'base': utils.resolve('../renderer/base'),
+      'components': utils.resolve('../renderer/components'),
     }
   },
   module: {
@@ -42,7 +65,7 @@ module.exports = {
         use: 'vue-loader',
       },
       {
-        test: /\.(png|jpg|gif|jpeg)/,  //是匹配图片文件后缀名称
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,  //是匹配图片文件后缀名称
         use: [{
           loader: 'url-loader', //是指定使用的loader和loader的配置参数
           options: {
@@ -74,7 +97,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'happypack/loader?id=happyBabel',
-        include: [path.resolve(__dirname, './src')]
+        include: [utils.resolve('../renderer')]
       },
       {
         test: /\.css$/,
@@ -93,7 +116,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.less$/,
+        test: /\.styl$/,
         use: [
           process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader',
@@ -106,36 +129,13 @@ module.exports = {
               ]
             }
           },
-          'less-loader',
+          'stylus-loader',
         ],
       },
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      minify: { //是对html文件进行压缩
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
-      filename: 'index.html',
-      title: '首页',
-      hash: true, //为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
-      template: path.resolve(__dirname, './index.html'), //是要打包的html模版路径和文件名称。
-      chunks: ['main1', 'vendor']
-    }),
-    new HtmlWebpackPlugin({
-      minify: { //是对html文件进行压缩
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
-      filename: 'otherpage.html',
-      title: '其他页',
-      hash: true, //为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
-      template: path.resolve(__dirname, './index.html'), //是要打包的html模版路径和文件名称。
-      chunks: ['main2', 'vendor']
-    }),
+    ...htmlPlugins,
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
       // chunkFilename: '[name].css'
