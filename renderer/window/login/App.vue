@@ -18,7 +18,7 @@ export default {
 
 <style lang="stylus" scoped>
   #app 
-    font-size: 50px
+    font-size: 12px
     color: cadetblue
     font-style italic
 </style>

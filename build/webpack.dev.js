@@ -8,7 +8,7 @@ const utils = require('./util.js')
 module.exports = merge(common, {
   devServer: {
     contentBase: utils.resolve('../dist'),
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     useLocalIp: true,
     overlay: {
       errors: true,

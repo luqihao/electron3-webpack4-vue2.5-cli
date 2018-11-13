@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    chat
+    chat123123123
     <a href="chat.html">chat</a>
     <a href="index.html">login</a>
     <a href="personalInfo.html">personalInfo</a>
