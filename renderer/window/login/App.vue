@@ -16,9 +16,9 @@ export default {
 }
 </script>
 
-<style>
-  #app {
-    font-size: 20px;
-    color: cadetblue;
-  }
+<style lang="stylus" scoped>
+  #app 
+    font-size: 50px
+    color: cadetblue
+    font-style italic
 </style>

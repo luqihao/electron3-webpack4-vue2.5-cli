@@ -48,7 +48,7 @@ module.exports = {
     // publicPath: 'dist'  //publicPath：主要作用就是处理静态文件路径的。
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json', 'styl'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       'js': utils.resolve('../renderer/assets/js'),
@@ -116,7 +116,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.styl$/,
+        test: /\.styl(us)?$/,
         use: [
           process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader',
@@ -131,7 +131,7 @@ module.exports = {
           },
           'stylus-loader',
         ],
-      },
+      }
     ]
   },
   plugins: [

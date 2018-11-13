@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
   #app {
     font-size: 20px;
     color: blueviolet;
