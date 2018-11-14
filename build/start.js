@@ -1,6 +1,6 @@
 const { exec } = require('child_process')
 
-exec('cross-env NODE_ENV=development webpack-dev-server --open --config build/webpack.dev.js')
+exec('npm run dev:renderer')
 setTimeout(() => {
-  exec('cross-env NODE_ENV=development electron ./')
+  exec('npm run dev:main')
 }, 10000)

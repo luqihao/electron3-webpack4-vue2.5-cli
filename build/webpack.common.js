@@ -1,4 +1,6 @@
 const fs = require("fs")
+const utils = require('./util.js')
+
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -7,7 +9,6 @@ const HappyPack = require('happypack')
 const os = require('os')
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })//获取cpu的数量
 
-const utils = require('./util.js')
 const entryDir = utils.resolve("../renderer/window")
 const entryFiles = fs.readdirSync(utils.resolve('../renderer/window'))
 let htmlPlugins = [], entrys = {}
@@ -23,11 +24,11 @@ entryFiles.forEach(dir => {
     title: `${dir}`,
     hash: true, //为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
     template: utils.resolve('../index.html'), //是要打包的html模版路径和文件名称。
-    // chunks: [dir]
     chunks: [dir, 'vendor']
   })
   htmlPlugins.push(htmlPlugin)
 })
+
 // var website = {
 //   publicPath: "http://localhost:8080/"
 //   // publicPath:"http://192.168.1.103:8888/"
@@ -35,13 +36,13 @@ entryFiles.forEach(dir => {
 console.log('*****')
 console.log(process.env.NODE_ENV)
 console.log('*****')
+
 module.exports = {
   mode: process.env.NODE_ENV, // development or production
   devtool: process.env.NODE_ENV === 'development' ? 'cheap-module-eval-source-map' : 'source-map',
   entry: Object.assign({
     vendor: ['vue', 'vuetify', 'vue-router', 'vuex']
   }, entrys),
-  // vendor: ['vue', 'vuetify', 'vue-router', 'vuex']
   output: {
     path: utils.resolve('../dist'),
     filename: 'js/[name].[hash:8].js',

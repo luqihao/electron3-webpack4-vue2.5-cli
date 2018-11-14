@@ -71,7 +71,7 @@
     "publish": [
       {
         "provider": "generic",
-        "url": "http://192.168.11.101:8080"
+        "url": "http://localhost:9000"
       }
     ],
     "win": {

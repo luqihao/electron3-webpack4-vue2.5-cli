@@ -1,16 +1,17 @@
-const webpack = require('webpack')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const glob = require('glob')
-const PurifyCSSPlugin = require('purifycss-webpack') // 去掉没有用过的css
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyWebpackPlugin = require('copy-webpack-plugin')//复制粘贴文件的插件
-
+const webpack = require('webpack')
 const utils = require('./util.js')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+const PurifyCSSPlugin = require('purifycss-webpack') // 去掉没有用过的css
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const CopyWebpackPlugin = require('copy-webpack-plugin')//复制粘贴文件的插件
 
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
+
 module.exports = merge(common, {
   externals: {
     // 'vue': 'Vue',
@@ -37,13 +38,13 @@ module.exports = merge(common, {
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true // set to true if you want JS source maps
+        sourceMap: true
       }),
       new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.css$/g,
         cssProcessorOptions: {
           safe: true,
-          autoprefixer: { disable: true }, // 这里是个大坑，稍后会提到
+          autoprefixer: { disable: true },
           mergeLonghand: false,
           discardComments: {
             removeAll: true // 移除注释
