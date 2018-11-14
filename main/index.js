@@ -12,7 +12,11 @@ let winList = {}
 function createWindow() {
   entryFiles.forEach((name) => {
     winList[name] = new BrowserWindow({ width: 800, height: 600 })
-    winList[name].loadURL(process.env.NODE_ENV === 'development' ? `http://10.10.5.2:8080/${name === 'login' ? 'index' : name}.html` : utils.resolve(`../dist/${name}.html`))
+    if (process.env.NODE_ENV === 'development') {
+      winList[name].loadURL(`http://localhost:8080/${name === 'login' ? 'index' : name}.html`)
+    } else {
+      winList[name].loadFile(`dist/${name === 'login' ? 'index' : name}.html`) //相对于项目根目录而加载的，所以不需要上一级
+    }
     winList[name].webContents.openDevTools()
     winList[name].on('closed', () => {
       // 取消引用 window 对象，如果你的应用支持多窗口的话，
