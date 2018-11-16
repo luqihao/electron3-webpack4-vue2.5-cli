@@ -20,7 +20,7 @@ entryFiles.forEach(dir => {
       collapseWhitespace: true,
       removeAttributeQuotes: true
     },
-    filename: `${dir === 'login' ? 'index' : dir}.html`,
+    filename: `${dir}.html`,
     title: `${dir}`,
     hash: true, //为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
     template: utils.resolve('../index.html'), //是要打包的html模版路径和文件名称。
@@ -29,17 +29,18 @@ entryFiles.forEach(dir => {
   htmlPlugins.push(htmlPlugin)
 })
 
+const ENV = process.env.NODE_ENV
 // var website = {
 //   publicPath: "http://localhost:8080/"
 //   // publicPath:"http://192.168.1.103:8888/"
 // }
 console.log('*****')
-console.log(process.env.NODE_ENV)
+console.log(ENV)
 console.log('*****')
 
 module.exports = {
-  mode: process.env.NODE_ENV, // development or production
-  devtool: process.env.NODE_ENV === 'development' ? 'cheap-module-eval-source-map' : 'source-map',
+  mode: ENV, // development or production
+  devtool: ENV === 'development' ? 'cheap-module-eval-source-map' : 'source-map',
   entry: Object.assign({
     vendor: ['vue', 'vuetify', 'vue-router', 'vuex']
   }, entrys),
@@ -103,7 +104,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader',
           {
             loader: 'postcss-loader',
@@ -119,7 +120,7 @@ module.exports = {
       {
         test: /\.styl(us)?$/,
         use: [
-          process.env.NODE_ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader',
           {
             loader: 'postcss-loader',

@@ -15,9 +15,9 @@ function createWindow() {
   entryFiles.forEach((name) => {
     winList[name] = new BrowserWindow({ width: 800, height: 600 })
     if (process.env.NODE_ENV === 'development') {
-      winList[name].loadURL(`http://localhost:8080/${name === 'login' ? 'index' : name}.html`)
+      winList[name].loadURL(`http://localhost:8080/${name}.html`)
     } else {
-      winList[name].loadFile(`dist/${name === 'login' ? 'index' : name}.html`) //相对于项目根目录而加载的，所以不需要上一级
+      winList[name].loadFile(`dist/${name}.html`) //相对于项目根目录而加载的，所以不需要上一级
     }
     winList[name].webContents.openDevTools()
     winList[name].on('closed', () => {

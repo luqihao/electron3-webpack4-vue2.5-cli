@@ -1,3 +1,5 @@
+const { exec } = require('child_process')
+
 const webpack = require('webpack')
 
 const merge = require('webpack-merge')
@@ -32,6 +34,10 @@ module.exports = merge(common, {
       children: false,
       hash: false,
     },
+    index: 'login.html',
+    after: function() {
+      exec('npm run dev:main')
+    }
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

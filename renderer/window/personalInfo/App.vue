@@ -2,7 +2,7 @@
   <div id="app">
     personalInfo
     <a href="chat.html">chat</a>
-    <a href="index.html">login</a>
+    <a href="login.html">login</a>
     <a href="personalInfo.html">personalInfo</a>
     <a href="contactSelect.html">contactSelect</a>
     <a href="pictureViewer.html">pictureViewer</a>
