@@ -7,7 +7,8 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const PurifyCSSPlugin = require('purifycss-webpack') // 去掉没有用过的css
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const CopyWebpackPlugin = require('copy-webpack-plugin')//复制粘贴文件的插件
+const CopyWebpackPlugin = require('copy-webpack-plugin') // 复制粘贴文件的插件
+const WebpackShellPlugin = require('webpack-shell-plugin') // 检测打包开始和打包结束，提供hook去进行而外的操作
 
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
@@ -59,6 +60,10 @@ module.exports = merge(common, {
     new CleanWebpackPlugin(['dist'], {
       root: utils.resolve('../')
     }),
+    new WebpackShellPlugin({ 
+      onBuildStart: ['echo "Webpack Start"'], 
+      onBuildEnd: ['echo "Webpack End" && npm run build:main'] 
+    })
     // new PurifyCSSPlugin({
     //   paths: glob.sync(path.join(__dirname, 'src/*.vue'))
     // }),
