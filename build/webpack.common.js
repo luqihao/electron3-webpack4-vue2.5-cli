@@ -4,10 +4,11 @@ const utils = require('./util.js')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-//webpack默认在node上面是单进程 所以我们打包时间比较慢 我们可以用这个文件来配置多进程 提高效率
+
+// webpack默认在node上面是单进程 所以我们打包时间比较慢 我们可以用这个文件来配置多进程 提高效率
 const HappyPack = require('happypack')
 const os = require('os')
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })//获取cpu的数量
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length }) // 获取cpu的数量
 
 const entryDir = utils.resolve("../renderer/window")
 const entryFiles = fs.readdirSync(utils.resolve('../renderer/window'))
@@ -15,15 +16,15 @@ let htmlPlugins = [], entrys = {}
 entryFiles.forEach(dir => {
   entrys[dir] = `${entryDir}/${dir}`
   const htmlPlugin = new HtmlWebpackPlugin({
-    minify: { //是对html文件进行压缩
+    minify: { // 是对html文件进行压缩
       removeComments: true,
       collapseWhitespace: true,
       removeAttributeQuotes: true
     },
     filename: `${dir}.html`,
     title: `${dir}`,
-    hash: true, //为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
-    template: utils.resolve('../index.html'), //是要打包的html模版路径和文件名称。
+    hash: true, // 为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。
+    template: utils.resolve('../index.html'), // 是要打包的html模版路径和文件名称。
     chunks: [dir, 'vendor']
   })
   htmlPlugins.push(htmlPlugin)
@@ -69,9 +70,9 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,  //是匹配图片文件后缀名称
         use: [{
-          loader: 'url-loader', //是指定使用的loader和loader的配置参数
+          loader: 'url-loader', // 是指定使用的loader和loader的配置参数
           options: {
-            limit: 10000,  //是把小于500B的文件打成Base64的格式，写入JS
+            limit: 10000,  // 是把小于10kb的文件打成Base64的格式，写入JS
             outputPath: 'images/',
           }
         }],
@@ -106,15 +107,7 @@ module.exports = {
         use: [
           ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              // sourceMap: true,
-              plugins: [
-                require('autoprefixer') /*在这里添加*/
-              ]
-            }
-          }
+          'postcss-loader',
         ],
       },
       {
@@ -122,15 +115,7 @@ module.exports = {
         use: [
           ENV === 'production' ? MiniCssExtractPlugin.loader : 'vue-style-loader',
           'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-              plugins: [
-                require('autoprefixer') /*在这里添加*/
-              ]
-            }
-          },
+          'postcss-loader',
           'stylus-loader',
         ],
       }

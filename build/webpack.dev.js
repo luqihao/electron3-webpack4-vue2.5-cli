@@ -18,6 +18,7 @@ module.exports = merge(common, {
     },
     open: true,
     hot: true,
+    port: 8080,
     historyApiFallback: true,
     inline: true,
     disableHostCheck: true,
@@ -34,9 +35,9 @@ module.exports = merge(common, {
       children: false,
       hash: false,
     },
-    index: 'login.html',
+    index: 'login.html', // 将login页面设置为index页面
     after: function() {
-      exec('npm run dev:main')
+      exec('npm run dev:main') // renderer服务启动后启动main服务
     }
   },
   plugins: [

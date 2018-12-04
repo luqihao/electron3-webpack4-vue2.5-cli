@@ -14,7 +14,7 @@ const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
-  externals: {
+  // externals: {
     // 'vue': 'Vue',
     // 'element-ui': 'ElementUI',
     // 'vue-router': 'Router',
@@ -22,7 +22,7 @@ module.exports = merge(common, {
     // 'qs': 'qs',
     // 'axios': 'axios',
     // 'jquery': '$',
-  },
+  // },
   // 这里需要将vue和vue-router公开出去，供全局使用，这里小写的(即冒号左边的)vue和vue-router是我们引入资源时对应的名字，冒号右面的是由库的主人暴露出来的全局方法名
   // 但在项目中移除import引入，例如import Vue from 'vue'，直接移除就行
   optimization: {
@@ -65,12 +65,12 @@ module.exports = merge(common, {
       onBuildEnd: ['echo "Webpack End" && npm run build:main'] 
     })
     // new PurifyCSSPlugin({
-    //   paths: glob.sync(path.join(__dirname, 'src/*.vue'))
+    //   paths: glob.sync(path.join(__dirname, 'src/*.html'))
     // }),
     // new CopyWebpackPlugin([//拷贝文件到打包文件目录下的插件
     //   {
-    //     from: utils.resolve('./static'),//复制来自于static
-    //     to: utils.resolve('./dist'),//粘贴到dist文件下static
+    //     from: utils.resolve('../static'),//复制来自于static
+    //     to: utils.resolve('../dist'),//粘贴到dist文件下static
     //     ignore: ['.*']
     //   }
     // ]),

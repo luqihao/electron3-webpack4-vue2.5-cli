@@ -17,8 +17,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  #app {
-    font-size: 20px;
-    color: blueviolet;
-  }
+  #app 
+    font-size 20px
+    color blueviolet
+    display flex
 </style>
