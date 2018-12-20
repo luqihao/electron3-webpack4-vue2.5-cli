@@ -40,7 +40,7 @@ console.log(ENV)
 console.log('*****')
 
 module.exports = {
-  target: ENV === 'development' ? 'electron-renderer' : 'electron-main',
+  target: 'electron-renderer',
   mode: ENV, // development or production
   devtool: ENV === 'development' ? 'cheap-module-eval-source-map' : 'source-map',
   entry: Object.assign({
